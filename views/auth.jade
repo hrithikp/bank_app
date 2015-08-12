@@ -1,0 +1,43 @@
+block content
+  tabset.tab-controller(ng-controller='AuthController', ng-hide='authenticated')
+    tab(ng-controller='LoginController', ng-hide='valid_auth')
+      tab-heading
+        i.glyphicon.glyphicon-log-in
+        |  Login
+      // FORM
+      alert(ng-repeat="error in errors" type="{{alert.type}}" close="closeAlert($index)") {{error.key}}: {{error.msg}}
+      form(name='login-form', ng-submit='submit()', ng-hide='valid_auth')
+        // NAME
+        .form-group(ng-class="{'has-error' : !formData.username}")
+          label Username: 
+          input.form-control(type='text', name='username', placeholder='john.doe', ng-model='formData.username', ng-required="true")
+        .form-group(ng-class="{'has-error' : !formData.password}")
+          label Password: 
+          input.form-control(type='password', name='password', placeholder='', ng-model='formData.password', ng-required="true")
+        // SUBMIT BUTTON
+        button.btn.btn-lg.btn-block(type='submit')
+          span.glyphicon.glyphicon-log-in
+          |  Log In!
+    tab(ng-controller='RegisterController')
+      tab-heading
+        span.glyphicon.glyphicon-cloud
+        |  Register
+      // FORM
+      alert(ng-repeat="error in errors" type="{{alert.type}}" close="closeAlert($index)") {{error.key}}: {{error.msg}}
+      form(name='register-form', ng-submit='submit()')
+        .form-group(ng-class="{'has-error' : !formData.fullname}")
+          label Full Name:
+          input.form-control(type='text', name='fullname', placeholder='Doe', ng-model='formData.fullname', ng-required="true")
+        .form-group(ng-class="{'has-error' : !formData.username}")
+          label User Name: 
+          input.form-control(type='text', name='username', placeholder='john.doe', ng-model='formData.username', ng-required="true")
+        .form-group(ng-class="{'has-error' : !formData.password}")
+          label Password
+          input.form-control(type='password', name='password', placeholder='', ng-model='formData.password', ng-required="true")
+        .form-group(ng-class="{'has-error' : (!formData.passconf || (formData.password != formData.passconf))}")
+          label Confrim Password
+          input.form-control(type='password', name='passconf', placeholder='', ng-model='formData.passconf', ng-required="true")
+        // SUBMIT BUTTON
+        button.btn.btn-success.btn-lg.btn-block(type='submit')
+          span.glyphicon.glyphicon-cloud
+          |  Register!

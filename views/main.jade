@@ -1,0 +1,61 @@
+block content
+  div(ng-controller='AccountController', ng-show="authenticated")
+    alert(type="info", ng-show="welcomeMsg") {{welcomeMsg}}
+    .btn-group(dropdown='', is-open='false')
+      button.btn.btn-default.btn-lg(type='button', dropdown-toggle='')
+        | Actions 
+        span.caret
+      ul.dropdown-menu(role='menu')
+        li(role='menuitem')
+          a(href='#', ng-click='deposit()') Deposit
+        li(role='menuitem')
+          a(href='#', ng-click='withdraw()') Withdraw
+        li(role='menuitem')
+          a(href='#', ng-click='transfer()') Transfer
+        li.divider
+        li.menuitem
+          a(href='#', ng-click='logout()') Log Out
+    hr
+    alert(ng-repeat="error in errors" type="{{alert.type}}" close="closeAlert($index)") {{error.key}}: {{error.msg}}
+    form(name='action-form', ng-submit='submit()', ng-show="formData.type")
+      // NAME
+      legend
+        | {{formData.type}} Form
+      .form-group(ng-show="formData.type == 'Transfer'" ng-class="{'has-error': !formData.src_account_uuid}")
+        label From Account:
+        select.form-control(ng-model="formData.src_account_uuid"  ng-options="a.uuid as a.type for a in accounts")
+          option(ng-repeat="account in accounts" ng-attr-value="account.uuid")
+            | {{account.type}}
+      .form-group(ng-class="{'has-error' : !formData.account_uuid}")
+        label Account:
+        select.form-control(ng-model="formData.account_uuid" ng-options="a.uuid as a.type for a in accounts")
+      .form-group(ng-class="{'has-error' : !formData.amount}")
+        label Amount: 
+        input.form-control(type='number', name='amount', step="0.01", placeholder='', ng-model='formData.amount', ng-required="true")
+      .form-group(ng-class="{'has-error' : !formData.desc}")
+        label Comment: 
+        textarea.form-control(type='text', name='desc', placeholder='some comment...', ng-model='formData.desc')
+      .btn-group.btn-group-justified(role='group')
+        .btn-group(role='group')
+          button.btn.btn-default(type='submit') Submit
+        .btn-group(role='group')
+          button.btn.btn-default(type='button',ng-click="close()") Cancel
+    hr
+    tabset(ng-show="loaded_acc")
+      tab(ng-repeat='a in accounts')
+        tab-heading 
+          | {{a.type}}: {{a.balance|currency:"$":2}}
+        table.table
+          thead
+            tr
+              th Date
+              th Description
+              th Amount
+          tbody
+            tr(ng-repeat="t in a.Transactions | orderBy:'createdAt':true" ng-class="t.class")
+              td 
+                | {{t.createdAt | date : 'MMM d, y h:mm:ss a'}}
+              td 
+                | {{t.desc}}
+              td 
+                | {{t.amount | currency:"$":2}}

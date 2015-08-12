@@ -1,0 +1,8 @@
+extends layout
+block content
+  if !auth_user.id
+    include auth.jade
+  else
+    script(type='text/javascript').
+      window.auth_user=!{JSON.stringify(auth_user)};
+  include main.jade
