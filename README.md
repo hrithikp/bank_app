@@ -5,7 +5,7 @@ A sample banking application
 ##Technologies
 * Angular and Bootsrap - Fully responsive
 * Node.js and Express - Asynchornous application server
-* Any SQL(default: SQLite) based database using Sequelize ORM
+* Sequelize ORM - Can use any SQL database(default: SQLite)
 
 ##Installation
 
